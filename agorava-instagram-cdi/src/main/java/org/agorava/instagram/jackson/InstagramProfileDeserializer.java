@@ -6,6 +6,7 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
+import org.codehaus.jackson.map.TypeDeserializer;
 
 import java.io.IOException;
 
@@ -18,10 +19,14 @@ public class InstagramProfileDeserializer extends JsonDeserializer<InstagramProf
 
     @Override
     public InstagramProfile deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
-        JsonNode tree = jsonParser.readValueAsTree();
-        JsonNode data= tree.get("data");
-        String id = data.get("id").asText();
-        InstagramProfile profile = new InstagramProfile(id);
+        JsonNode data = jsonParser.readValueAsTree();
+        InstagramProfile profile = new InstagramProfile(data.get("id").asText(),
+                data.get("username").asText(),
+                data.get("full_name").asText(),
+                data.get("profile_picture").asText(),
+                data.get("bio").asText(),
+                data.get("website").asText());
         return profile;
     }
+
 }

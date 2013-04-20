@@ -4,6 +4,7 @@ import org.agorava.Instagram;
 import org.agorava.core.api.SocialMediaApiHub;
 import org.agorava.core.api.oauth.OAuthToken;
 import org.agorava.core.oauth.scribe.OAuthTokenScribe;
+import org.agorava.instagram.InstagramRelationshipService;
 import org.agorava.instagram.InstagramUserService;
 import org.agorava.instagram.model.InstagramProfile;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -21,6 +22,7 @@ import org.junit.runner.RunWith;
 import javax.inject.Inject;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 /**
  * User: Dje
@@ -36,6 +38,9 @@ public class InstagramTest {
 
     @Inject
     InstagramUserService userService;
+
+    @Inject
+    InstagramRelationshipService relationshipService;
 
     @Deployment
     public static Archive<?> createTestArchive() throws FileNotFoundException {
@@ -67,9 +72,7 @@ public class InstagramTest {
 
     @Before
     public void init() {
-        System.out.println("init");
         OAuthToken token = new OAuthTokenScribe("30659961.1fb234f.8c1bb3f7eaac4ec0aae831e3c3e8acc8", "");
-        System.out.println("servicehub : " + serviceHub.getSocialMediaName());
         serviceHub.getSession().setAccessToken(token);
         serviceHub.getService().initAccessToken();
     }
@@ -77,8 +80,40 @@ public class InstagramTest {
     @Test
     public void loginTest() {
         InstagramProfile profile = userService.getUserProfile();
-        System.out.println(profile.toString());
-        Assert.assertEquals("30659961", profile.getId());
+        Assert.assertEquals("djegauth", profile.getUserName());
+    }
+
+    @Test
+    public void getUserProfileWithId() {
+        InstagramProfile profile = userService.getUserProfile("1574083");
+        Assert.assertEquals("snoopdogg", profile.getUserName());
+    }
+
+    @Test
+    public void searchUser() {
+        List<InstagramProfile> profiles = userService.search("marie");
+        Assert.assertEquals(16, profiles.size());
+    }
+
+    @Test
+    public void getFollowsTest() {
+        List<InstagramProfile> following = relationshipService.getFollows("1574083");
+        System.out.println("SnoopDog follows " + following.size() + " instagrammers");
+        Assert.assertTrue(following.size() > 0);
+    }
+
+    @Test
+    public void getFollowedByTest() {
+        List<InstagramProfile> follower = relationshipService.getFollowedBy("1574083");
+        System.out.println("SnoopDog has " + follower.size() + " followers");
+        Assert.assertTrue(follower.size() > 0);
+    }
+
+    @Test
+    public void getRequestByTest() {
+        List<InstagramProfile> requested = relationshipService.getRequestBy();
+        System.out.println(requested.size() + " want to follow SnoopDog");
+        Assert.assertNotNull(requested);
     }
 
 }
