@@ -11,11 +11,11 @@ import org.agorava.instagram.model.InstagramProfile;
  */
 public class InstagramUserServiceImpl extends InstagramBaseService implements InstagramUserService {
 
-    static final String GET_USER_PROFILE_URL = "users/show.json";
+    static final String GET_USER_PROFILE_URL = "users/self";
 
     @Override
     public InstagramProfile getUserProfile() {
-        return getService().get(buildUri("/users/self"), InstagramProfile.class);
+        return getService().get(buildUri(GET_USER_PROFILE_URL), InstagramProfile.class);
     }
 
 
