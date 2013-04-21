@@ -12,15 +12,12 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
-import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
@@ -45,28 +42,12 @@ public class InstagramTest {
     @Deployment
     public static Archive<?> createTestArchive() throws FileNotFoundException {
 
-        String path = "F:\\Dev\\Agorava\\agorava-instagram\\agorava-instagram-api\\target\\agorava-instagram-api.jar";
 
         WebArchive ret = ShrinkWrap
                 .create(WebArchive.class, "test.war")
                 .addPackages(true, "org.agorava")
-                .addClass(InstagramServiceProducer.class)
-                .addAsLibraries(new File(path));
-        System.out.println(System.getProperty("arquillian"));
-        if (("weld-ee-embedded-1.1".equals(System.getProperty("arquillian")) || System.getProperty("arquillian") == null)) {
-            // Don't embed dependencies that are already in the CL in the embedded container from surefire
-            /*ret.addAsLibraries(DependencyResolvers.use(MavenDependencyResolver.class).loadMetadataFromPom("pom.xml")
-                    .artifact("org.jboss.solder:solder-impl").resolveAs(GenericArchive.class));
-       */
-        } else {
-            ret.addAsLibraries(DependencyResolvers.use(MavenDependencyResolver.class)
-                    .loadMetadataFromPom("pom.xml")
-                    .artifact("org.jboss.solder:solder-impl")
-                    .artifact("org.scribe:scribe")
-                    .artifact("org.apache.commons:commons-lang3")
-                    .artifact("org.codehaus.jackson:jackson-mapper-asl")
-                    .artifact("com.google.guava:guava").resolveAsFiles());
-        }
+                .addClass(InstagramServiceProducer.class);
+
         return ret;
     }
 
