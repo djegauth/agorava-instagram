@@ -12,7 +12,7 @@
 	<parent>
 		<artifactId>agorava-instagram-parent</artifactId>
 		<groupId>org.agorava</groupId>
-		<version>0.5.1-SNAPSHOT</version>
+		<version>0.5.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>agorava-instagram-api</artifactId>
 	<dependencies>

@@ -1,6 +1,7 @@
 package org.agorava.instagram;
 
 import org.agorava.instagram.model.InstagramProfile;
+import org.agorava.instagram.model.InstagramProfileList;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface InstagramUserService {
      * @param query : String to search
      * @return List of {@link InstagramProfile}
      */
-    List<InstagramProfile> search(String query);
+    InstagramProfileList search(String query);
 
     /**
      * the API has an issue. No matter how much we put for the count, it always return 16 results
@@ -28,5 +29,5 @@ public interface InstagramUserService {
      * @param count : number of result
      * @return List of {@link InstagramProfile}
      */
-    List<InstagramProfile> search(String query, int count);
+    InstagramProfileList search(String query, int count);
 }

@@ -18,7 +18,7 @@ import java.io.IOException;
 public class InstagramProfileDeserializer extends JsonDeserializer<InstagramProfile> {
 
     @Override
-    public InstagramProfile deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+    public InstagramProfile deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         JsonNode data = jsonParser.readValueAsTree();
         InstagramProfile profile = new InstagramProfile(data.get("id").asText(),
                 data.get("username").asText(),

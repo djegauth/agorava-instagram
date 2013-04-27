@@ -6,6 +6,7 @@ import org.agorava.instagram.InstagramUserService;
 import org.agorava.instagram.jackson.InstagramProfileHolder;
 import org.agorava.instagram.jackson.InstagramProfileListHolder;
 import org.agorava.instagram.model.InstagramProfile;
+import org.agorava.instagram.model.InstagramProfileList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,19 +36,21 @@ public class InstagramUserServiceImpl extends InstagramBaseService implements In
     }
 
     @Override
-    public List<InstagramProfile> search(String query) {
+    public InstagramProfileList search(String query) {
         Map<String,String> parameters = new HashMap<String, String>();
         parameters.put("q", query);
-        return getService().get(buildUri(SEARCH_USER_URL, parameters), InstagramProfileListHolder.class).getList();
+        InstagramProfileListHolder holder = getService().get(buildUri(SEARCH_USER_URL, parameters), InstagramProfileListHolder.class);
+        return new InstagramProfileList(holder.getPagination(), holder.getList());
     }
 
 
     @Override
-    public List<InstagramProfile> search(String query, int count) {
+    public InstagramProfileList search(String query, int count) {
         Map<String,String> parameters = new HashMap<String, String>();
         parameters.put("q", query);
         parameters.put("count", Integer.toString(count));
-        return getService().get(buildUri(SEARCH_USER_URL, parameters), InstagramProfileListHolder.class).getList();
+        InstagramProfileListHolder holder = getService().get(buildUri(SEARCH_USER_URL, parameters), InstagramProfileListHolder.class);
+        return new InstagramProfileList(holder.getPagination(), holder.getList());
     }
 
 }

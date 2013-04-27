@@ -2,6 +2,7 @@ package org.agorava.instagram.jackson;
 
 import org.agorava.Instagram;
 import org.agorava.instagram.model.InstagramProfile;
+import org.agorava.instagram.model.Pagination;
 import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.module.SimpleModule;
 

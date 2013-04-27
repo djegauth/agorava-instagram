@@ -7,6 +7,7 @@ import org.agorava.core.oauth.scribe.OAuthTokenScribe;
 import org.agorava.instagram.InstagramRelationshipService;
 import org.agorava.instagram.InstagramUserService;
 import org.agorava.instagram.model.InstagramProfile;
+import org.agorava.instagram.model.InstagramProfileList;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -42,7 +43,6 @@ public class InstagramTest {
     @Deployment
     public static Archive<?> createTestArchive() throws FileNotFoundException {
 
-
         WebArchive ret = ShrinkWrap
                 .create(WebArchive.class, "test.war")
                 .addPackages(true, "org.agorava")
@@ -72,22 +72,44 @@ public class InstagramTest {
 
     @Test
     public void searchUser() {
-        List<InstagramProfile> profiles = userService.search("marie");
-        Assert.assertEquals(16, profiles.size());
+        InstagramProfileList profileList = userService.search("marie");
+        Assert.assertEquals(16, profileList.getProfiles().size());
     }
 
     @Test
     public void getFollowsTest() {
-        List<InstagramProfile> following = relationshipService.getFollows("1574083");
-        System.out.println("SnoopDog follows " + following.size() + " instagrammers");
-        Assert.assertTrue(following.size() > 0);
+        InstagramProfileList followingList = relationshipService.getFollows("30659961");
+        Assert.assertTrue(followingList.getProfiles().size() > 0);
+        Assert.assertNull(followingList.getPagination());
+        System.out.println("djegauth follows " + followingList.getProfiles().size() + " instagrammers");
+    }
+
+    @Test
+    public void getFollowsPaginationTest() {
+        InstagramProfileList followingList = relationshipService.getFollows("1574083");
+        Assert.assertTrue(followingList.getProfiles().size() > 0);
+        Assert.assertNotNull(followingList.getPagination());
+        System.out.println("SnoopDog follows " + followingList.getProfiles().size() + " instagrammers");
+        InstagramProfileList followingListPagination = relationshipService.getFollows("1574083", followingList.getPagination().getNextCursor());
+        Assert.assertTrue(followingListPagination.getProfiles().size() > 0);
     }
 
     @Test
     public void getFollowedByTest() {
-        List<InstagramProfile> follower = relationshipService.getFollowedBy("1574083");
-        System.out.println("SnoopDog has " + follower.size() + " followers");
-        Assert.assertTrue(follower.size() > 0);
+        InstagramProfileList followerList = relationshipService.getFollowedBy("30659961");
+        Assert.assertTrue(followerList.getProfiles().size() > 0);
+        Assert.assertNull(followerList.getPagination());
+        System.out.println("djegauth has " + followerList.getProfiles().size() + " followers and no pagination");
+    }
+
+    @Test
+    public void getFollowedByPaginationTest() {
+        InstagramProfileList followerList = relationshipService.getFollowedBy("1574083");
+        Assert.assertTrue(followerList.getProfiles().size() > 0);
+        Assert.assertNotNull(followerList.getPagination());
+        System.out.println("SnoopDog has " + followerList.getProfiles().size() + " followers and pagination");
+        InstagramProfileList followerListPagination = relationshipService.getFollowedBy("1574083", followerList.getPagination().getNextCursor());
+        Assert.assertTrue(followerListPagination.getProfiles().size() > 0);
     }
 
     @Test

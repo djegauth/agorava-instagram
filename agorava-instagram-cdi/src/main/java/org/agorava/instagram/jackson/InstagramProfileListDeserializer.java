@@ -18,6 +18,7 @@ import java.util.List;
  * Time: 18:12
  */
 public class InstagramProfileListDeserializer extends JsonDeserializer<List<InstagramProfile>> {
+
     @Override
     public List<InstagramProfile> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
@@ -25,7 +26,7 @@ public class InstagramProfileListDeserializer extends JsonDeserializer<List<Inst
         jp.setCodec(mapper);
 
         JsonNode dataNode = jp.readValueAsTree();
-        return (List<InstagramProfile>) mapper.readValue(dataNode, new TypeReference<List<InstagramProfile>>() {
+        return mapper.readValue(dataNode, new TypeReference<List<InstagramProfile>>() {
         });
     }
 }
