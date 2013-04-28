@@ -7,7 +7,6 @@ import org.agorava.core.oauth.scribe.OAuthTokenScribe;
 import org.agorava.instagram.InstagramCommentsService;
 import org.agorava.instagram.InstagramRelationshipService;
 import org.agorava.instagram.InstagramUserService;
-import org.agorava.instagram.impl.InstagramCommentsServiceImpl;
 import org.agorava.instagram.model.*;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -20,7 +19,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -37,25 +35,20 @@ public class InstagramTest {
     @Inject
     @Instagram
     SocialMediaApiHub serviceHub;
-
     @Inject
     InstagramUserService userService;
-
     @Inject
     InstagramRelationshipService relationshipService;
-
     @Inject
     InstagramCommentsService commentService;
-
     Properties tokenProp;
 
     @Deployment
     public static Archive<?> createTestArchive() throws FileNotFoundException {
-        WebArchive ret = ShrinkWrap
+        return ShrinkWrap
                 .create(WebArchive.class, "test.war")
                 .addPackages(true, "org.agorava")
                 .addClass(InstagramServiceProducer.class);
-        return ret;
     }
 
     @Before
@@ -155,8 +148,8 @@ public class InstagramTest {
 
     @Test
     public void getComments() {
-        List<Comment> list = commentService.getComments("420856957964435190_4368630");
-        System.out.println("Comments size : " + list.size());
+        List<Comment> list = commentService.getComments("424654008017062099_30659961");
+        Assert.assertEquals(1, list.size());
     }
 
 }
