@@ -14,12 +14,4 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 @JsonDeserialize(using = InstagramProfileDeserializer.class)
 public class InstagramProfileMixin {
 
-    @JsonCreator
-    InstagramProfileMixin(@JsonProperty("id") String id,
-                          @JsonProperty("username") String userName,
-                          @JsonProperty("full_name") String fullName,
-                          @JsonProperty("profile_picture") String profileImageUrl,
-                          @JsonProperty("bio") String bio,
-                          @JsonProperty("website")String website) {
-    }
 }

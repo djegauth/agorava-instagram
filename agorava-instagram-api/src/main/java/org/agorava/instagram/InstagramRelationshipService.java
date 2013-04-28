@@ -3,6 +3,7 @@ package org.agorava.instagram;
 import org.agorava.instagram.model.InstagramProfile;
 import org.agorava.instagram.model.InstagramProfileList;
 import org.agorava.instagram.model.Relationship;
+import org.agorava.instagram.model.RelationshipAction;
 
 import java.util.List;
 
@@ -55,16 +56,18 @@ public interface InstagramRelationshipService {
     List<InstagramProfile> getRequestBy();
 
     /**
-     * Get information about a relationship to another user.
+     * Get information about a relationship with the user in arguments
      *
+     * @param userId : user's id we want you to find the Relationship with.
      * @return {@link Relationship}
      */
-    Relationship getRelationship();
+    Relationship getRelationship(String userId);
 
     /**
      * Modify the relationship between the current user and the target user.
      *
-     * @return
+     * @param userId : user's id we want you to change the Relationship with.
+     * @return {@link Relationship}
      */
-    Relationship postRelationship();
+    Relationship updateRelationship(String userId, RelationshipAction action);
 }

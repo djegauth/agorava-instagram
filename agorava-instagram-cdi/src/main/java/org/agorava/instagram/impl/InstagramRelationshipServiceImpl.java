@@ -3,9 +3,11 @@ package org.agorava.instagram.impl;
 import org.agorava.InstagramBaseService;
 import org.agorava.instagram.InstagramRelationshipService;
 import org.agorava.instagram.jackson.InstagramProfileListHolder;
+import org.agorava.instagram.jackson.InstagramRelationshipHolder;
 import org.agorava.instagram.model.InstagramProfile;
 import org.agorava.instagram.model.InstagramProfileList;
 import org.agorava.instagram.model.Relationship;
+import org.agorava.instagram.model.RelationshipAction;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,12 +55,14 @@ public class InstagramRelationshipServiceImpl extends InstagramBaseService imple
     }
 
     @Override
-    public Relationship getRelationship() {
-        return null;
+    public Relationship getRelationship(String userId) {
+        return getService().get(buildUri("/users/" + userId + "/relationship"), InstagramRelationshipHolder.class).getRelationship();
     }
 
     @Override
-    public Relationship postRelationship() {
-        return null;
+    public Relationship updateRelationship(String userId, RelationshipAction action) {
+        Map<String, String> body = new HashMap<String, String>();
+        body.put("action", action.getAction());
+        return getService().post(buildUri("/users/" + userId + "/relationship"), body, InstagramRelationshipHolder.class).getRelationship();
     }
 }

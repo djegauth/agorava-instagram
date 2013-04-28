@@ -12,16 +12,15 @@ public class InstagramProfile extends UserProfile {
     private final String userName;
     private final String fullName;
     private final String profileImageUrl;
-    private final String bio;
-    private final String website;
+    private String bio;
+    private String website;
+    private Count count;
 
-    public InstagramProfile(String id, String userName, String fullName, String profileImageUrl, String bio, String website ) {
+    public InstagramProfile(String id, String userName, String fullName, String profileImageUrl) {
         super(id);
         this.userName = userName;
         this.fullName = fullName;
         this.profileImageUrl = profileImageUrl;
-        this.bio = bio;
-        this.website = website;
     }
 
     @Override
@@ -34,16 +33,32 @@ public class InstagramProfile extends UserProfile {
         return profileImageUrl;
     }
 
-    public String getBio() {
-        return bio;
-    }
-
     public String getUserName() {
         return userName;
     }
 
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
     public String getWebsite() {
         return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public Count getCount() {
+        return count;
+    }
+
+    public void setCount(Count count) {
+        this.count = count;
     }
 
     @Override

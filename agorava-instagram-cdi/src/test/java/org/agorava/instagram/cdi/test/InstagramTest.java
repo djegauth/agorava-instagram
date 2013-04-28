@@ -4,10 +4,11 @@ import org.agorava.Instagram;
 import org.agorava.core.api.SocialMediaApiHub;
 import org.agorava.core.api.oauth.OAuthToken;
 import org.agorava.core.oauth.scribe.OAuthTokenScribe;
+import org.agorava.instagram.InstagramCommentsService;
 import org.agorava.instagram.InstagramRelationshipService;
 import org.agorava.instagram.InstagramUserService;
-import org.agorava.instagram.model.InstagramProfile;
-import org.agorava.instagram.model.InstagramProfileList;
+import org.agorava.instagram.impl.InstagramCommentsServiceImpl;
+import org.agorava.instagram.model.*;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -19,8 +20,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * User: Dje
@@ -40,14 +44,17 @@ public class InstagramTest {
     @Inject
     InstagramRelationshipService relationshipService;
 
+    @Inject
+    InstagramCommentsService commentService;
+
+    Properties tokenProp;
+
     @Deployment
     public static Archive<?> createTestArchive() throws FileNotFoundException {
-
         WebArchive ret = ShrinkWrap
                 .create(WebArchive.class, "test.war")
                 .addPackages(true, "org.agorava")
                 .addClass(InstagramServiceProducer.class);
-
         return ret;
     }
 
@@ -56,12 +63,20 @@ public class InstagramTest {
         OAuthToken token = new OAuthTokenScribe("30659961.1fb234f.8c1bb3f7eaac4ec0aae831e3c3e8acc8", "");
         serviceHub.getSession().setAccessToken(token);
         serviceHub.getService().initAccessToken();
+        tokenProp = new Properties();
+        try {
+            tokenProp.load(getClass().getClassLoader().getResourceAsStream("token.properties"));
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
     public void loginTest() {
         InstagramProfile profile = userService.getUserProfile();
         Assert.assertEquals("djegauth", profile.getUserName());
+        Assert.assertEquals("It's an old story with me. I was born out of time.", profile.getBio());
+        Assert.assertNotNull(profile.getCount());
     }
 
     @Test
@@ -117,6 +132,31 @@ public class InstagramTest {
         List<InstagramProfile> requested = relationshipService.getRequestBy();
         System.out.println(requested.size() + " want to follow SnoopDog");
         Assert.assertNotNull(requested);
+    }
+
+    @Test
+    public void getRelationship() {
+        // Get
+        Relationship relationship = relationshipService.getRelationship("4368630");
+        Assert.assertNotNull(relationship);
+        Assert.assertEquals("followed_by", relationship.getIncomingStatus());
+        Assert.assertEquals("follows", relationship.getOutgoingStatus());
+
+        // Update unfollow
+        Relationship relationUpdate = relationshipService.updateRelationship("4368630", RelationshipAction.UNFOLLOW);
+        Assert.assertNotNull(relationUpdate);
+        Assert.assertEquals("none", relationUpdate.getOutgoingStatus());
+
+        // Update follow
+        relationUpdate = relationshipService.updateRelationship("4368630", RelationshipAction.FOLLOW);
+        Assert.assertNotNull(relationUpdate);
+        Assert.assertEquals("follows", relationUpdate.getOutgoingStatus());
+    }
+
+    @Test
+    public void getComments() {
+        List<Comment> list = commentService.getComments("420856957964435190_4368630");
+        System.out.println("Comments size : " + list.size());
     }
 
 }

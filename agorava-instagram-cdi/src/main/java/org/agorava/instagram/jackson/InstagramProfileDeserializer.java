@@ -1,12 +1,11 @@
 package org.agorava.instagram.jackson;
 
+import org.agorava.instagram.model.Count;
 import org.agorava.instagram.model.InstagramProfile;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.TypeDeserializer;
 
 import java.io.IOException;
 
@@ -23,10 +22,20 @@ public class InstagramProfileDeserializer extends JsonDeserializer<InstagramProf
         InstagramProfile profile = new InstagramProfile(data.get("id").asText(),
                 data.get("username").asText(),
                 data.get("full_name").asText(),
-                data.get("profile_picture").asText(),
-                data.get("bio").asText(),
-                data.get("website").asText());
+                data.get("profile_picture").asText());
+        if (data.has("bio")) {
+            profile.setBio(data.get("bio").asText());
+        }
+        if (data.has("website")) {
+            profile.setWebsite(data.get("website").asText());
+        }
+        if (data.has("counts")) {
+            JsonNode countsNode = data.get("counts");
+            Count counts = new Count(countsNode.get("followed_by").asInt(),
+                    countsNode.get("media").asInt(),
+                    countsNode.get("follows").asInt());
+            profile.setCount(counts);
+        }
         return profile;
     }
-
 }
