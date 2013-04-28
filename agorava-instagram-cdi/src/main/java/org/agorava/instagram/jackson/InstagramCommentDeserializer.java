@@ -26,13 +26,10 @@ public class InstagramCommentDeserializer extends JsonDeserializer<Comment> {
         JsonNode data = jp.readValueAsTree();
         JsonNode jsonProfile = data.get("from");
         InstagramProfile profile = mapper.readValue(jsonProfile, InstagramProfile.class);
-        System.out.println(profile.toString());
-        Comment comment = new Comment(data.get("created_time").asLong(),
+        return new Comment(data.get("created_time").asLong(),
                 data.get("id").asText(),
                 data.get("text").asText(),
                 profile
         );
-        System.out.println(comment.toString());
-        return comment;
     }
 }
