@@ -21,6 +21,6 @@ public class InstragramModule extends SimpleModule {
     @Override
     public void setupModule(SetupContext context) {
         context.setMixInAnnotations(InstagramProfile.class, InstagramProfileMixin.class);
-        context.setMixInAnnotations(Comment.class, CommentMixin.class);
+        context.setMixInAnnotations(Comment.class, InstagramCommentMixin.class);
     }
 }

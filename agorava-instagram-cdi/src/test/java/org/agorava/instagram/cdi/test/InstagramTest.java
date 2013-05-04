@@ -4,10 +4,7 @@ import org.agorava.Instagram;
 import org.agorava.core.api.SocialMediaApiHub;
 import org.agorava.core.api.oauth.OAuthToken;
 import org.agorava.core.oauth.scribe.OAuthTokenScribe;
-import org.agorava.instagram.InstagramCommentsService;
-import org.agorava.instagram.InstagramLikesService;
-import org.agorava.instagram.InstagramRelationshipService;
-import org.agorava.instagram.InstagramUserService;
+import org.agorava.instagram.*;
 import org.agorava.instagram.model.*;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -44,6 +41,8 @@ public class InstagramTest {
     InstagramCommentsService commentService;
     @Inject
     InstagramLikesService likesService;
+    @Inject
+    InstagramMediaService mediaService;
     Properties tokenProp;
 
     @Deployment
@@ -159,7 +158,7 @@ public class InstagramTest {
     }
 
     @Test
-    public void getLikes() {
+    public void testLikes() {
         List<InstagramProfile> list = likesService.getLikes("424654008017062099_30659961");
         Assert.assertEquals(2, list.size());
 
@@ -170,6 +169,18 @@ public class InstagramTest {
         likesService.deleteLike("424654008017062099_30659961");
         list = likesService.getLikes("424654008017062099_30659961");
         Assert.assertEquals(2, list.size());
+    }
+
+    @Test
+    public void getMedia() {
+        Media media = mediaService.getMedia("447049573353439230_4368630");
+        System.out.println(media.toString());
+        Assert.assertEquals("447049573353439230_4368630", media.getId());
+        Assert.assertEquals("Valencia", media.getFilter());
+        Assert.assertEquals("image", media.getType());
+        Assert.assertEquals(Integer.valueOf(16), media.getCommentsCount());
+        Assert.assertEquals(8, media.getComments().size());
+        Assert.assertEquals("2eme édition en préparation #boxdescreatrices", media.getCaption().getText());
     }
 
 }

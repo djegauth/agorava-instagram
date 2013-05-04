@@ -10,5 +10,5 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = InstagramCommentDeserializer.class)
-public class CommentMixin {
+public class InstagramCommentMixin {
 }
