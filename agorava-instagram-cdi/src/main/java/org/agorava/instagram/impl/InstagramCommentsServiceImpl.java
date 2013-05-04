@@ -4,7 +4,6 @@ import org.agorava.InstagramBaseService;
 import org.agorava.instagram.InstagramCommentsService;
 import org.agorava.instagram.jackson.InstagramCommentListHolder;
 import org.agorava.instagram.model.Comment;
-import org.agorava.instagram.model.CommentList;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package org.agorava.instagram.jackson;
 
 import org.agorava.instagram.model.Comment;
+import org.agorava.instagram.model.Image;
 import org.agorava.instagram.model.InstagramProfile;
 import org.agorava.instagram.model.Media;
 import org.codehaus.jackson.JsonNode;
@@ -39,12 +40,30 @@ public class InstagramMediaDeserializer extends JsonDeserializer<Media> {
         List<Comment> comments = mapper.readValue(commentListNode, new TypeReference<List<Comment>>() {
         });
 
+        JsonNode likesNode = data.get("likes");
+        JsonNode likesListNode = likesNode.get("data");
+        List<InstagramProfile> likes = mapper.readValue(likesListNode, new TypeReference<List<InstagramProfile>>() {
+        });
+
+        JsonNode imagesNode = data.get("images");
+        Image lowResolution = mapper.readValue(imagesNode.get("low_resolution"), Image.class);
+        Image thumbnail = mapper.readValue(imagesNode.get("thumbnail"), Image.class);
+        Image standardResolution = mapper.readValue(imagesNode.get("standard_resolution"), Image.class);
+
         return new Media(data.get("id").asText(),
                 user,
                 data.get("type").asText(),
                 data.get("filter").asText(),
                 commentsNode.get("count").asInt(),
                 comments,
-                caption);
+                caption,
+                data.get("created_time").asLong(),
+                data.get("link").asText(),
+                likesNode.get("count").asInt(),
+                likes,
+                lowResolution,
+                thumbnail,
+                standardResolution,
+                data.get("user_has_liked").asBoolean());
     }
 }

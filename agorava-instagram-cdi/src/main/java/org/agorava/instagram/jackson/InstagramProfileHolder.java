@@ -17,7 +17,7 @@ public class InstagramProfileHolder {
     private final InstagramProfile profile;
 
     @JsonCreator
-    public InstagramProfileHolder(@JsonProperty("data") @JsonDeserialize(using = InstagramProfileDeserializer.class) InstagramProfile profile){
+    public InstagramProfileHolder(@JsonProperty("data") InstagramProfile profile){
         this.profile = profile;
     }
 

@@ -21,7 +21,7 @@ public class InstagramProfileListHolder {
     private final Pagination pagination;
 
     @JsonCreator
-    public InstagramProfileListHolder(@JsonProperty("data") @JsonDeserialize(using = InstagramProfileListDeserializer.class) List<InstagramProfile> list
+    public InstagramProfileListHolder(@JsonProperty("data") List<InstagramProfile> list
             , @JsonProperty("pagination") @JsonDeserialize(using = InstagramPaginationDeserializer.class) Pagination pagination) {
         this.list = list;
         this.pagination = pagination;

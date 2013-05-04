@@ -6,6 +6,7 @@ import org.agorava.core.api.oauth.OAuthToken;
 import org.agorava.core.oauth.scribe.OAuthTokenScribe;
 import org.agorava.instagram.*;
 import org.agorava.instagram.model.*;
+import org.apache.log4j.Logger;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -43,6 +44,9 @@ public class InstagramTest {
     InstagramLikesService likesService;
     @Inject
     InstagramMediaService mediaService;
+
+    @Inject
+    Logger logger;
     Properties tokenProp;
 
     @Deployment
@@ -181,6 +185,21 @@ public class InstagramTest {
         Assert.assertEquals(Integer.valueOf(16), media.getCommentsCount());
         Assert.assertEquals(8, media.getComments().size());
         Assert.assertEquals("2eme édition en préparation #boxdescreatrices", media.getCaption().getText());
+        Assert.assertEquals(Long.valueOf(1367512483), media.getCreatedTime());
+        Assert.assertEquals("http://instagram.com/p/Y0PTfouL_-/", media.getLink());
+        Assert.assertEquals(Integer.valueOf(85), media.getLikesCount());
+        Assert.assertEquals(10, media.getLikes().size());
+        Assert.assertEquals(Integer.valueOf(306), media.getLowResolution().getWidth());
+        Assert.assertEquals(Integer.valueOf(150), media.getThumbnail().getWidth());
+        Assert.assertEquals(Integer.valueOf(612), media.getStandardResolution().getWidth());
+        Assert.assertFalse(media.isUserHasLiked());
+    }
+
+    @Test
+    public void getPopular() {
+        List<Media> listMedia = mediaService.getPopular();
+        Assert.assertNotNull(listMedia);
+        Assert.assertTrue(listMedia.size() > 0);
     }
 
 }

@@ -1,7 +1,6 @@
 package org.agorava.instagram;
 
 import org.agorava.instagram.model.Comment;
-import org.agorava.instagram.model.CommentList;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ public interface InstagramCommentsService {
      * Get the comments from the media
      *
      * @param mediaId :  id of the media
-     * @return CommentList
+     * @return list of {@link Comment}
      */
     List<Comment> getComments(String mediaId);
 }

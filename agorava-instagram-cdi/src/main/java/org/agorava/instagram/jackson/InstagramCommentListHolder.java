@@ -4,7 +4,6 @@ import org.agorava.instagram.model.Comment;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class InstagramCommentListHolder {
     private final List<Comment> list;
 
     @JsonCreator
-    public InstagramCommentListHolder(@JsonProperty("data") @JsonDeserialize(using = InstagramCommentListDeserializer.class) List<Comment> list) {
+    public InstagramCommentListHolder(@JsonProperty("data") List<Comment> list) {
         this.list = list;
     }
 

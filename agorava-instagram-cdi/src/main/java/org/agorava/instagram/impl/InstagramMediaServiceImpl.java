@@ -3,7 +3,10 @@ package org.agorava.instagram.impl;
 import org.agorava.InstagramBaseService;
 import org.agorava.instagram.InstagramMediaService;
 import org.agorava.instagram.jackson.InstagramMediaHolder;
+import org.agorava.instagram.jackson.InstagramMediaListHolder;
 import org.agorava.instagram.model.Media;
+
+import java.util.List;
 
 /**
  * User: Dje
@@ -15,5 +18,10 @@ public class InstagramMediaServiceImpl extends InstagramBaseService implements I
     @Override
     public Media getMedia(String mediaId) {
         return getService().get(buildUri("/media/" + mediaId), InstagramMediaHolder.class).getMedia();
+    }
+
+    @Override
+    public List<Media> getPopular() {
+        return getService().get(buildUri("/media/popular"), InstagramMediaListHolder.class).getList();
     }
 }
