@@ -3,7 +3,6 @@ package org.agorava.instagram.jackson;
 import org.agorava.instagram.model.Media;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
 
 import java.util.List;
 

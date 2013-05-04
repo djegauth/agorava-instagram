@@ -18,8 +18,7 @@ public class InstagramLikesServiceImpl extends InstagramBaseService implements I
 
     @Override
     public List<InstagramProfile> getLikes(String mediaId) {
-        List<InstagramProfile> list = getService().get(buildUri("/media/" + mediaId + "/likes"), InstagramProfileListHolder.class).getList();
-        return list;
+        return getService().get(buildUri("/media/" + mediaId + "/likes"), InstagramProfileListHolder.class).getList();
     }
 
     @Override

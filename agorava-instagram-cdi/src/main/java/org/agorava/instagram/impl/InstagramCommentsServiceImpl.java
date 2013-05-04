@@ -16,7 +16,6 @@ public class InstagramCommentsServiceImpl extends InstagramBaseService implement
 
     @Override
     public List<Comment> getComments(String mediaId) {
-        List<Comment> list = getService().get(buildUri("/media/" + mediaId + "/comments"), InstagramCommentListHolder.class).getList();
-        return list;
+        return getService().get(buildUri("/media/" + mediaId + "/comments"), InstagramCommentListHolder.class).getList();
     }
 }
