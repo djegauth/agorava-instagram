@@ -5,6 +5,7 @@ import org.agorava.core.api.SocialMediaApiHub;
 import org.agorava.core.api.oauth.OAuthToken;
 import org.agorava.core.oauth.scribe.OAuthTokenScribe;
 import org.agorava.instagram.InstagramCommentsService;
+import org.agorava.instagram.InstagramLikesService;
 import org.agorava.instagram.InstagramRelationshipService;
 import org.agorava.instagram.InstagramUserService;
 import org.agorava.instagram.model.*;
@@ -41,6 +42,8 @@ public class InstagramTest {
     InstagramRelationshipService relationshipService;
     @Inject
     InstagramCommentsService commentService;
+    @Inject
+    InstagramLikesService likesService;
     Properties tokenProp;
 
     @Deployment
@@ -150,6 +153,23 @@ public class InstagramTest {
     public void getComments() {
         List<Comment> list = commentService.getComments("424654008017062099_30659961");
         Assert.assertEquals(1, list.size());
+        Comment comment = list.get(0);
+        Assert.assertEquals("Et l'Expo était vraiment top", comment.getText());
+        Assert.assertEquals("djegauth", comment.getFrom().getUserName());
+    }
+
+    @Test
+    public void getLikes() {
+        List<InstagramProfile> list = likesService.getLikes("424654008017062099_30659961");
+        Assert.assertEquals(2, list.size());
+
+        likesService.postLike("424654008017062099_30659961");
+        list = likesService.getLikes("424654008017062099_30659961");
+        Assert.assertEquals(3, list.size());
+
+        likesService.deleteLike("424654008017062099_30659961");
+        list = likesService.getLikes("424654008017062099_30659961");
+        Assert.assertEquals(2, list.size());
     }
 
 }
