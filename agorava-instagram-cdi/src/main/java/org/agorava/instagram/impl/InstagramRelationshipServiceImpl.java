@@ -23,7 +23,7 @@ public class InstagramRelationshipServiceImpl extends InstagramBaseService imple
 
     @Override
     public InstagramProfileList getFollows(String userId) {
-        InstagramProfileListHolder holder = getService().get(buildUri("/users/" + userId + "/follows"), InstagramProfileListHolder.class);
+        InstagramProfileListHolder holder = getService().get(buildAbsoluteUri("/users/" + userId + "/follows"), InstagramProfileListHolder.class);
         return new InstagramProfileList(holder.getPagination(), holder.getList());
     }
 
@@ -37,7 +37,7 @@ public class InstagramRelationshipServiceImpl extends InstagramBaseService imple
 
     @Override
     public InstagramProfileList getFollowedBy(String userId) {
-        InstagramProfileListHolder holder = getService().get(buildUri("/users/" + userId + "/followed-by"), InstagramProfileListHolder.class);
+        InstagramProfileListHolder holder = getService().get(buildAbsoluteUri("/users/" + userId + "/followed-by"), InstagramProfileListHolder.class);
         return new InstagramProfileList(holder.getPagination(), holder.getList());
     }
 
@@ -51,18 +51,18 @@ public class InstagramRelationshipServiceImpl extends InstagramBaseService imple
 
     @Override
     public List<InstagramProfile> getRequestBy() {
-        return getService().get(buildUri("/users/self/requested-by"), InstagramProfileListHolder.class).getList();
+        return getService().get(buildAbsoluteUri("/users/self/requested-by"), InstagramProfileListHolder.class).getList();
     }
 
     @Override
     public Relationship getRelationship(String userId) {
-        return getService().get(buildUri("/users/" + userId + "/relationship"), InstagramRelationshipHolder.class).getRelationship();
+        return getService().get(buildAbsoluteUri("/users/" + userId + "/relationship"), InstagramRelationshipHolder.class).getRelationship();
     }
 
     @Override
     public Relationship updateRelationship(String userId, RelationshipAction action) {
         Map<String, String> body = new HashMap<String, String>();
         body.put("action", action.getAction());
-        return getService().post(buildUri("/users/" + userId + "/relationship"), body, InstagramRelationshipHolder.class).getRelationship();
+        return getService().post(buildAbsoluteUri("/users/" + userId + "/relationship"), body, InstagramRelationshipHolder.class).getRelationship();
     }
 }

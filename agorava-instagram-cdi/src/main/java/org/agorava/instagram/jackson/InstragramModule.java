@@ -1,6 +1,6 @@
 package org.agorava.instagram.jackson;
 
-import org.agorava.Instagram;
+import org.agorava.instagram.Instagram;
 import org.agorava.instagram.model.Comment;
 import org.agorava.instagram.model.Image;
 import org.agorava.instagram.model.InstagramProfile;

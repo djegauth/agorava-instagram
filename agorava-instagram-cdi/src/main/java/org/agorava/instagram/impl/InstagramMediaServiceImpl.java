@@ -17,11 +17,11 @@ public class InstagramMediaServiceImpl extends InstagramBaseService implements I
 
     @Override
     public Media getMedia(String mediaId) {
-        return getService().get(buildUri("/media/" + mediaId), InstagramMediaHolder.class).getMedia();
+        return getService().get(buildAbsoluteUri("/media/" + mediaId), InstagramMediaHolder.class).getMedia();
     }
 
     @Override
     public List<Media> getPopular() {
-        return getService().get(buildUri("/media/popular"), InstagramMediaListHolder.class).getList();
+        return getService().get(buildAbsoluteUri("/media/popular"), InstagramMediaListHolder.class).getList();
     }
 }

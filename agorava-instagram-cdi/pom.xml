@@ -4,15 +4,11 @@
     <parent>
         <artifactId>agorava-instagram-parent</artifactId>
         <groupId>org.agorava</groupId>
-        <version>0.5.2-SNAPSHOT</version>
+        <version>0.7.0-SNAPSHOT</version>
     </parent>
     <artifactId>agorava-instagram-cdi</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>org.jboss.logging</groupId>
-            <artifactId>jboss-logging</artifactId>
-        </dependency>
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
@@ -27,42 +23,6 @@
             <artifactId>agorava-core-impl-cdi</artifactId>
         </dependency>
 
-
-        <dependency>
-            <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
-            <version>1.0.2.Final</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.transaction</groupId>
-            <artifactId>jta</artifactId>
-            <version>1.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.0.0.GA</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
-            <version>1.0.1.Final</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>el-impl</artifactId>
-            <version>2.1.2-b04</version>
-            <scope>test</scope>
-        </dependency>
-
-
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
@@ -73,13 +33,18 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
             <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
             <scope>test</scope>
         </dependency>
 
-
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-depchain</artifactId>
+            <type>pom</type>
+        </dependency>
 
     </dependencies>
 
@@ -99,15 +64,19 @@
             </properties>
             <dependencies>
                 <dependency>
+                    <groupId>org.jboss.spec</groupId>
+                    <artifactId>jboss-javaee-6.0</artifactId>
+                    <type>pom</type>
+                </dependency>
+
+                <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
                     <artifactId>arquillian-weld-ee-embedded-1.1</artifactId>
-
                     <scope>test</scope>
                 </dependency>
                 <dependency>
                     <groupId>org.jboss.weld</groupId>
                     <artifactId>weld-core</artifactId>
-                    <version>${weld-core.version}</version>
                     <scope>test</scope>
                 </dependency>
                 <dependency>

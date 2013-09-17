@@ -1,16 +1,14 @@
 package org.agorava.instagram.impl;
 
 import org.agorava.InstagramBaseService;
-import org.agorava.core.utils.URLUtils;
 import org.agorava.instagram.InstagramUserService;
 import org.agorava.instagram.jackson.InstagramProfileHolder;
 import org.agorava.instagram.jackson.InstagramProfileListHolder;
 import org.agorava.instagram.model.InstagramProfile;
 import org.agorava.instagram.model.InstagramProfileList;
 
-import java.util.ArrayList;
+import javax.inject.Named;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,13 +24,13 @@ public class InstagramUserServiceImpl extends InstagramBaseService implements In
 
     @Override
     public InstagramProfile getUserProfile() {
-        return getService().get(buildUri(GET_OWN_PROFILE_URL), InstagramProfileHolder.class).getProfile();
+        return getService().get(buildAbsoluteUri(GET_OWN_PROFILE_URL), InstagramProfileHolder.class).getProfile();
     }
 
 
     @Override
     public InstagramProfile getUserProfile(String userId) {
-        return getService().get(buildUri(GET_USER_PROFILE_URL + userId), InstagramProfileHolder.class).getProfile();
+        return getService().get(buildAbsoluteUri(GET_USER_PROFILE_URL + userId), InstagramProfileHolder.class).getProfile();
     }
 
     @Override

@@ -1,7 +1,8 @@
 package org.agorava;
 
 import org.agorava.core.api.oauth.OAuthService;
-import org.agorava.core.cdi.AbstractSocialMediaApi;
+import org.agorava.core.spi.TierService;
+import org.agorava.instagram.Instagram;
 
 import javax.inject.Inject;
 
@@ -10,7 +11,7 @@ import javax.inject.Inject;
  * Date: 20/04/13
  * Time: 00:20
  */
-public abstract class InstagramBaseService extends AbstractSocialMediaApi{
+public abstract class InstagramBaseService extends TierService {
 
     public static final String API_ROOT = "https://api.instagram.com/v1/";
 
@@ -19,7 +20,7 @@ public abstract class InstagramBaseService extends AbstractSocialMediaApi{
     private OAuthService service;
 
     @Override
-    public String buildUri(String uri) {
+    protected String buildAbsoluteUri(String uri) {
         return API_ROOT + uri;
     }
 
@@ -27,4 +28,6 @@ public abstract class InstagramBaseService extends AbstractSocialMediaApi{
     public OAuthService getService() {
         return service;
     }
+
+
 }

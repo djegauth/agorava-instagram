@@ -18,16 +18,16 @@ public class InstagramLikesServiceImpl extends InstagramBaseService implements I
 
     @Override
     public List<InstagramProfile> getLikes(String mediaId) {
-        return getService().get(buildUri("/media/" + mediaId + "/likes"), InstagramProfileListHolder.class).getList();
+        return getService().get(buildAbsoluteUri("/media/" + mediaId + "/likes"), InstagramProfileListHolder.class).getList();
     }
 
     @Override
     public void postLike(String mediaId) {
-        getService().post(buildUri("/media/" + mediaId + "/likes"), new HashMap<String, String>(), InstagramDataDeserializer.class);
+        getService().post(buildAbsoluteUri("/media/" + mediaId + "/likes"), new HashMap<String, String>(), InstagramDataDeserializer.class);
     }
 
     @Override
     public void deleteLike(String mediaId) {
-        getService().delete(buildUri("/media/" + mediaId + "/likes"));
+        getService().delete(buildAbsoluteUri("/media/" + mediaId + "/likes"));
     }
 }
