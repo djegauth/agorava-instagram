@@ -1,7 +1,5 @@
 package org.agorava.instagram.model;
 
-import com.google.common.base.Objects;
-
 /**
  * User: Dje
  * Date: 04/05/13
@@ -28,14 +26,5 @@ public class Image {
 
     public Integer getWidth() {
         return width;
-    }
-
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this)
-                .add("height", height)
-                .add("url", url)
-                .add("width", width)
-                .toString();
     }
 }

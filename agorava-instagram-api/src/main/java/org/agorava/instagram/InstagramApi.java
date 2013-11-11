@@ -1,9 +1,9 @@
 package org.agorava.instagram;
 
-import org.agorava.core.api.oauth.OAuthAppSettings;
-import org.agorava.core.api.util.OAuthEncoder;
-import org.agorava.core.api.util.Preconditions;
-import org.agorava.core.spi.TierConfigOauth20;
+import org.agorava.api.oauth.application.OAuthAppSettings;
+import org.agorava.api.service.OAuthEncoder;
+import org.agorava.api.service.Preconditions;
+import org.agorava.spi.ProviderConfigOauth20Final;
 
 /**
  * User: Dje
@@ -11,7 +11,7 @@ import org.agorava.core.spi.TierConfigOauth20;
  * Time: 11:35
  */
 @Instagram
-public class InstagramApi extends TierConfigOauth20 {
+public class InstagramApi extends ProviderConfigOauth20Final {
 
     private static final String MEDIA_NAME = "Instagram";
     private static final String AUTHORIZE_URL = "https://instagram.com/oauth/authorize/?client_id=%s&redirect_uri=%s&response_type=token";
@@ -35,7 +35,7 @@ public class InstagramApi extends TierConfigOauth20 {
     }
 
     @Override
-    public String getTierName() {
+    public String getProviderName() {
         return MEDIA_NAME;
     }
 }

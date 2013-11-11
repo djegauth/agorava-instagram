@@ -1,8 +1,8 @@
 package org.agorava;
 
-import org.agorava.core.api.oauth.OAuthService;
-import org.agorava.core.spi.TierService;
+import org.agorava.api.oauth.OAuthService;
 import org.agorava.instagram.Instagram;
+import org.agorava.spi.ProviderApiService;
 
 import javax.inject.Inject;
 
@@ -11,7 +11,7 @@ import javax.inject.Inject;
  * Date: 20/04/13
  * Time: 00:20
  */
-public abstract class InstagramBaseService extends TierService {
+public abstract class InstagramBaseService extends ProviderApiService {
 
     public static final String API_ROOT = "https://api.instagram.com/v1/";
 

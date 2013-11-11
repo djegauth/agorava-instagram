@@ -1,6 +1,6 @@
 package org.agorava.instagram.model;
 
-import org.agorava.core.spi.UserProfile;
+import org.agorava.spi.UserProfile;
 
 /**
  * User: Dje

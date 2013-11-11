@@ -1,7 +1,5 @@
 package org.agorava.instagram.model;
 
-import com.google.common.base.Objects;
-
 /**
  * User: Dje
  * Date: 21/04/13
@@ -32,13 +30,5 @@ public class Relationship {
 
     public void setIncomingStatus(String incomingStatus) {
         this.incomingStatus = incomingStatus;
-    }
-
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this)
-                .add("incomingStatus", incomingStatus)
-                .add("outgoingStatus", outgoingStatus)
-                .toString();
     }
 }

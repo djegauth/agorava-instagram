@@ -2,6 +2,7 @@ package org.agorava.instagram;
 
 import org.agorava.instagram.model.InstagramProfile;
 import org.agorava.instagram.model.InstagramProfileList;
+import org.agorava.spi.UserProfileService;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * Date: 19/04/13
  * Time: 23:46
  */
-public interface InstagramUserService {
+public interface InstagramUserService extends UserProfileService {
 
     InstagramProfile getUserProfile();
 

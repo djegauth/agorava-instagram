@@ -1,7 +1,5 @@
 package org.agorava.instagram.model;
 
-import com.google.common.base.Objects;
-
 /**
  * User: Dje
  * Date: 28/04/13
@@ -35,15 +33,5 @@ public class Comment {
 
     public String getText() {
         return text;
-    }
-
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this)
-                .add("createdTime", createdTime)
-                .add("id", id)
-                .add("text", text)
-                .add("from", from)
-                .toString();
     }
 }

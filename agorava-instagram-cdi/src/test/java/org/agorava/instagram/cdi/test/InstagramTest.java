@@ -1,30 +1,19 @@
 package org.agorava.instagram.cdi.test;
 
-import org.agorava.core.api.atinject.Current;
-import org.agorava.core.api.oauth.OAuthService;
-import org.agorava.core.api.oauth.OAuthSession;
-import org.agorava.core.api.oauth.Token;
+import org.agorava.api.atinject.Current;
+import org.agorava.api.oauth.OAuthService;
+import org.agorava.api.oauth.OAuthSession;
+import org.agorava.api.oauth.Token;
 import org.agorava.instagram.*;
 import org.agorava.instagram.model.*;
-import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.GenericArchive;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * User: Dje
@@ -32,7 +21,7 @@ import java.util.Properties;
  * Time: 09:52
  */
 @RunWith(Arquillian.class)
-public class InstagramTest {
+public class InstagramTest extends InstagramTestDeploy {
 
     @Inject
     @Instagram
@@ -44,6 +33,10 @@ public class InstagramTest {
     OAuthSession sessionTest;
 
     @Inject
+    org.agorava.api.service.OAuthLifeCycleService OAuthLifeCycleService;
+
+    @Inject
+    @Instagram
     InstagramUserService userService;
     @Inject
     InstagramRelationshipService relationshipService;
@@ -54,34 +47,11 @@ public class InstagramTest {
     @Inject
     InstagramMediaService mediaService;
 
-    Properties tokenProp;
-
-    @Deployment
-    public static Archive<?> createTestArchive() throws FileNotFoundException {
-        GenericArchive[] libs = Maven.resolver()
-                .loadPomFromFile("pom.xml")
-                .resolve("org.apache.deltaspike.core:deltaspike-core-impl:0.5")
-                .withTransitivity().as(GenericArchive.class);
-
-        return ShrinkWrap
-                .create(WebArchive.class, "test.war")
-                .addPackages(true, "org.agorava")
-                .addClass(InstagramServiceProducer.class)
-                .addAsLibraries(libs)
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-    }
-
     @Before
     public void init() {
         Token token = new Token("30659961.1fb234f.8c1bb3f7eaac4ec0aae831e3c3e8acc8", "");
-        service.getSession().setAccessToken(token);
-        service.initAccessToken();
-        tokenProp = new Properties();
-//        try {
-//            tokenProp.load(getClass().getClassLoader().getResourceAsStream("token.properties"));
-//        } catch (IOException e) {
-//            System.out.println(e.getMessage());
-//        }
+        sessionTest.setAccessToken(token);
+        OAuthLifeCycleService.endDance();
     }
 
     @Test
@@ -192,7 +162,6 @@ public class InstagramTest {
     @Test
     public void getMedia() {
         Media media = mediaService.getMedia("447049573353439230_4368630");
-        System.out.println(media.toString());
         Assert.assertEquals("447049573353439230_4368630", media.getId());
         Assert.assertEquals("Valencia", media.getFilter());
         Assert.assertEquals("image", media.getType());
@@ -201,7 +170,7 @@ public class InstagramTest {
         Assert.assertEquals("2eme édition en préparation #boxdescreatrices", media.getCaption().getText());
         Assert.assertEquals(Long.valueOf(1367512483), media.getCreatedTime());
         Assert.assertEquals("http://instagram.com/p/Y0PTfouL_-/", media.getLink());
-        Assert.assertEquals(Integer.valueOf(86), media.getLikesCount());
+        Assert.assertEquals(Integer.valueOf(87), media.getLikesCount());
         Assert.assertEquals(4, media.getLikes().size());
         Assert.assertEquals(Integer.valueOf(306), media.getLowResolution().getWidth());
         Assert.assertEquals(Integer.valueOf(150), media.getThumbnail().getWidth());

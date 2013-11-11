@@ -1,6 +1,7 @@
 package org.agorava.instagram.impl;
 
 import org.agorava.InstagramBaseService;
+import org.agorava.instagram.Instagram;
 import org.agorava.instagram.InstagramUserService;
 import org.agorava.instagram.jackson.InstagramProfileHolder;
 import org.agorava.instagram.jackson.InstagramProfileListHolder;
@@ -16,6 +17,7 @@ import java.util.Map;
  * Date: 20/04/13
  * Time: 00:27
  */
+@Instagram
 public class InstagramUserServiceImpl extends InstagramBaseService implements InstagramUserService {
 
     static final String GET_OWN_PROFILE_URL = "users/self";

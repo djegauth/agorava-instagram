@@ -1,16 +1,16 @@
 package org.agorava.instagram.jackson;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.agorava.instagram.model.Comment;
 import org.agorava.instagram.model.Image;
 import org.agorava.instagram.model.InstagramProfile;
 import org.agorava.instagram.model.Media;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,30 +25,34 @@ public class InstagramMediaDeserializer extends JsonDeserializer<Media> {
     @Override
     public Media deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.setDeserializationConfig(ctxt.getConfig());
+        mapper.registerModule(new InstagramModule());
         jp.setCodec(mapper);
 
         JsonNode data = jp.readValueAsTree();
         JsonNode jsonProfile = data.get("user");
-        InstagramProfile user = mapper.readValue(jsonProfile, InstagramProfile.class);
+        InstagramProfile user = mapper.reader(new TypeReference<InstagramProfile>() {
+        }).readValue(jsonProfile.toString());
 
         JsonNode captionNode = data.get("caption");
-        Comment caption = mapper.readValue(captionNode, Comment.class);
+        Comment caption = mapper.readValue(captionNode.toString(), new TypeReference<Comment>() {});
 
         JsonNode commentsNode = data.get("comments");
         JsonNode commentListNode = commentsNode.get("data");
-        List<Comment> comments = mapper.readValue(commentListNode, new TypeReference<List<Comment>>() {
-        });
+        List<Comment> comments = mapper.reader(new TypeReference<List<Comment>>() {
+        }).readValue(commentListNode.toString());
 
         JsonNode likesNode = data.get("likes");
         JsonNode likesListNode = likesNode.get("data");
-        List<InstagramProfile> likes = mapper.readValue(likesListNode, new TypeReference<List<InstagramProfile>>() {
-        });
+        List<InstagramProfile> likes = mapper.reader(new TypeReference<List<InstagramProfile>>() {
+        }).readValue(likesListNode.toString());
 
         JsonNode imagesNode = data.get("images");
-        Image lowResolution = mapper.readValue(imagesNode.get("low_resolution"), Image.class);
-        Image thumbnail = mapper.readValue(imagesNode.get("thumbnail"), Image.class);
-        Image standardResolution = mapper.readValue(imagesNode.get("standard_resolution"), Image.class);
+        Image lowResolution = mapper.reader(new TypeReference<Image>() {
+        }).readValue(imagesNode.get("low_resolution").toString());
+        Image thumbnail = mapper.reader(new TypeReference<Image>() {
+        }).readValue(imagesNode.get("thumbnail").toString());
+        Image standardResolution = mapper.reader(new TypeReference<Image>() {
+        }).readValue(imagesNode.get("standard_resolution").toString());
 
         return new Media(data.get("id").asText(),
                 user,
@@ -65,5 +69,6 @@ public class InstagramMediaDeserializer extends JsonDeserializer<Media> {
                 thumbnail,
                 standardResolution,
                 data.get("user_has_liked").asBoolean());
+
     }
 }

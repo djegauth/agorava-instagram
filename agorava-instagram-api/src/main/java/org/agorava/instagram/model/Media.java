@@ -1,7 +1,5 @@
 package org.agorava.instagram.model;
 
-import com.google.common.base.Objects;
-
 import java.util.List;
 
 /**
@@ -47,6 +45,24 @@ public class Media {
         this.thumbnail = thumbnail;
         this.standardResolution = standardResolution;
         this.userHasLiked = userHasLiked;
+    }
+
+    public Media(String id, String filter, Comment caption) {
+        this.id = id;
+        this.user = null;
+        this.type = null;
+        this.filter = filter;
+        this.commentsCount = null;
+        this.comments = null;
+        this.caption = caption;
+        this.createdTime = null;
+        this.link = null;
+        this.likesCount = null;
+        this.likes = null;
+        this.lowResolution = null;
+        this.thumbnail = null;
+        this.standardResolution = null;
+        this.userHasLiked = false;
     }
 
     public String getId() {
@@ -107,15 +123,5 @@ public class Media {
 
     public boolean isUserHasLiked() {
         return userHasLiked;
-    }
-
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this)
-                .add("filter", filter)
-                .add("id", id)
-                .add("user", user)
-                .add("type", type)
-                .toString();
     }
 }

@@ -1,6 +1,6 @@
 package org.agorava.instagram;
 
-import org.agorava.core.api.atinject.TierServiceRelated;
+import org.agorava.api.atinject.ProviderRelated;
 
 import javax.inject.Qualifier;
 import java.lang.annotation.Documented;
@@ -17,7 +17,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Time: 22:20
  */
 @Qualifier
-@TierServiceRelated
+@ProviderRelated("Instagram")
 @Target({TYPE, METHOD, PARAMETER, FIELD})
 @Retention(RUNTIME)
 @Documented

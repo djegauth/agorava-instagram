@@ -1,6 +1,6 @@
 package org.agorava.instagram.jackson;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * User: Dje
